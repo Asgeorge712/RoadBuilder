@@ -1,5 +1,10 @@
 package com.paulgeorge.prim;
 
+/******************************************
+ * 
+ * @author Paul
+ *
+ ******************************************/
 public class Edge {
 	int x;
 	int y;
