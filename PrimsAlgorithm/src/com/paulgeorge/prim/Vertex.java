@@ -2,7 +2,7 @@ package com.paulgeorge.prim;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
-import java.util.Map;
+import java.util.List;
 import java.util.Set;
 
 public class Vertex {
@@ -29,15 +29,13 @@ public class Vertex {
 		return dist;
 	}
 
-	public Edge findShortestUnvisitedEdge(Map<Integer, Vertex> vertices) {
-		Set<Integer> keys = vertices.keySet();
+	public Edge findShortestUnvisitedEdge(List<Vertex> vertices) {
 		double shortestDistance = Double.MAX_VALUE;
 		Vertex closest = null;
-		for ( Integer i : keys ) {
-			Vertex v = vertices.get(i);
-			if ( v.hasBeenVisited()) {
-				continue;
-			}
+		for ( Vertex v : vertices ) {
+			//Only look at unvisited nodes
+			if ( v.hasBeenVisited()) continue;
+			
 			double thisDistance = this.findDistanceFrom(v);
 			if ( thisDistance < shortestDistance ) {
 				shortestDistance = thisDistance;
