@@ -9,10 +9,10 @@ import java.util.Set;
 
 public class RoadBuilder {
 
-	int LENGTH = 100; // this is the x dimension of the play field
-	int WIDTH = 100;  // this is y dimension of the play field
-	int HEIGHT = 4;   // this is z dimension of the play field
-	int NUMBER_OF_VERTICES = 5;
+	int LENGTH = 100000; // this is the x dimension of the play field
+	int WIDTH = 100000;  // this is y dimension of the play field
+	int HEIGHT = 400;   // this is z dimension of the play field
+	int NUMBER_OF_VERTICES = 20;
 	
 	//This is a map to maintain order easily.
 	Map<Integer, Vertex> vertices;
@@ -22,13 +22,13 @@ public class RoadBuilder {
 		//Make up a bunch of vertices
 		RoadBuilder rb = new RoadBuilder();
 		rb.initNodes();
-		rb.buildRoad();
+		rb.buildRoads();
 		System.out.println("\n\n");
 		rb.printVertices();
 		rb.printEdges();
 	}
 	
-	private void buildRoad() {
+	private void buildRoads() {
 		//Start with vertices(0) as root
 		ArrayList<Vertex> visited = new ArrayList<>();
 
@@ -37,13 +37,18 @@ public class RoadBuilder {
 		curr.setVisited(true);
 		visited.add(curr);
 		
+		int counter = 0;
 		while ( anyNotVisited() ) {
-			System.out.println("There are " + countUnvisited() + " unvisited nodes");
+			//System.out.println("There are " + countUnvisited() + " unvisited nodes");
 			Vertex[] link = findClosestNeighbor(visited);
 			Vertex parent = link[0];
 			Vertex target = link[1];
+			if ( counter == 0 ) {
+				System.out.println("Closest node to 0 is " + target.getIndex());
+			}
+			counter++;
 			
-			System.out.println("Linking nodes: " + parent.getIndex() + " with " + target.getIndex());
+			//System.out.println("Linking nodes: " + parent.getIndex() + " with " + target.getIndex());
 			visited.add(target);
 			target.setVisited(true);
 			vertices.get(target.getIndex()).setVisited(true);
@@ -127,13 +132,4 @@ public class RoadBuilder {
 		
 	}
 
-	
-//	public void printNodes() {
-//		Iterator<Integer> iter = vertices.keySet().iterator();
-//		while ( iter.hasNext()) {
-//			Integer i = iter.next();
-//			Vertex v = vertices.get(i);
-//			System.out.println("V : " + i + " = " + v.toString());
-//		}
-//	}
 }

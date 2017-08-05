@@ -36,7 +36,9 @@ public class Vertex {
 		Vertex closest = null;
 		for ( Integer i : keys ) {
 			Vertex v = vertices.get(i);
-			if ( !v.hasBeenVisited() && this.findDistanceFrom(v) < shortestDistance ) {
+			double thisDistance = this.findDistanceFrom(v);
+			if ( !v.hasBeenVisited() && thisDistance < shortestDistance ) {
+				shortestDistance = thisDistance;
 				closest = v;
 			}
 		}
