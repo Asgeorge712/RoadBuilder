@@ -11,7 +11,6 @@ public class Vertex {
 	private double x;
 	private double y;
 	private double z;
-	//private Map<Vertex, Double> neighbors;
 	
 	public Vertex(int i, double x, double y, double z) {
 		this.index = i;
@@ -30,19 +29,23 @@ public class Vertex {
 		return dist;
 	}
 
-	public Vertex findClosestUnvisitedVertex(Map<Integer, Vertex> vertices) {
+	public Edge findShortestUnvisitedEdge(Map<Integer, Vertex> vertices) {
 		Set<Integer> keys = vertices.keySet();
 		double shortestDistance = Double.MAX_VALUE;
 		Vertex closest = null;
 		for ( Integer i : keys ) {
 			Vertex v = vertices.get(i);
+			if ( v.hasBeenVisited()) {
+				continue;
+			}
 			double thisDistance = this.findDistanceFrom(v);
-			if ( !v.hasBeenVisited() && thisDistance < shortestDistance ) {
+			if ( thisDistance < shortestDistance ) {
 				shortestDistance = thisDistance;
 				closest = v;
 			}
 		}
-		return closest;
+		System.out.println("For " + this.getIndex() + " - found closest: " + closest.getIndex() + "  - distance is: " + shortestDistance);
+		return new Edge(this, closest, shortestDistance);
 	}
 	
 	public void setVisited(boolean v) {

@@ -6,16 +6,29 @@ package com.paulgeorge.prim;
  *
  ******************************************/
 public class Edge {
-	int x;
-	int y;
+	Vertex parent;
+	Vertex target;
+	double distance;
 	
-	public Edge(int x, int y) {
-		this.x = x;
-		this.y = y;
+	public Edge(Vertex x, Vertex y, double d) {
+		this.parent = x;
+		this.target = y;
+		this.distance = d;
 	}
 	
+	public Vertex getParent() {
+		return parent;
+	}
+	
+	public Vertex getTarget() {
+		return target;
+	}
+	
+	public double getDistance() {
+		return distance;
+	}
 	
 	public String toString() {
-		return x + "," + y;
+		return parent.getIndex() + "," + target.getIndex() + " --- " + this.distance;
 	}
 }

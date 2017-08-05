@@ -9,9 +9,9 @@ import java.util.Set;
 
 public class RoadBuilder {
 
-	int LENGTH = 100000; // this is the x dimension of the play field
-	int WIDTH = 100000;  // this is y dimension of the play field
-	int HEIGHT = 400;   // this is z dimension of the play field
+	int LENGTH = 100; // this is the x dimension of the play field
+	int WIDTH = 100;  // this is y dimension of the play field
+	int HEIGHT = 4;   // this is z dimension of the play field
 	int NUMBER_OF_VERTICES = 20;
 	
 	//This is a map to maintain order easily.
@@ -30,34 +30,29 @@ public class RoadBuilder {
 	
 	private void buildRoads() {
 		//Start with vertices(0) as root
-		ArrayList<Vertex> visited = new ArrayList<>();
+		List<Vertex> visited = new ArrayList<>();
 
+		//Set up initial root
 		Vertex curr = vertices.get(0);
-
 		curr.setVisited(true);
 		visited.add(curr);
 		
-		int counter = 0;
+		//Keep going as long as there are unvisited nodes
 		while ( anyNotVisited() ) {
-			//System.out.println("There are " + countUnvisited() + " unvisited nodes");
-			Vertex[] link = findClosestNeighbor(visited);
-			Vertex parent = link[0];
-			Vertex target = link[1];
-			if ( counter == 0 ) {
-				System.out.println("Closest node to 0 is " + target.getIndex());
-			}
-			counter++;
+			Edge e = findShortestEdge(visited);
 			
-			//System.out.println("Linking nodes: " + parent.getIndex() + " with " + target.getIndex());
+			Vertex target = e.getTarget();
 			visited.add(target);
-			target.setVisited(true);
-			vertices.get(target.getIndex()).setVisited(true);
 			
-			Edge e = new Edge(parent.getIndex(), target.getIndex());
+			vertices.get(target.getIndex()).setVisited(true);
 			edges.add(e);
 		}
 	}
 
+	/************************************************************************
+	 * 
+	 * @return
+	 ************************************************************************/
 	private boolean anyNotVisited() {
 		Set<Integer> keys = vertices.keySet();
 		for ( Integer key : keys ) {
@@ -68,23 +63,28 @@ public class RoadBuilder {
 		return false;
 	}
 
-
-	private Vertex[] findClosestNeighbor( ArrayList<Vertex> visited) {
+	/***************************************************************************
+	 * 
+	 * @param visited
+	 * @return
+	 ***************************************************************************/
+	private Edge findShortestEdge( List<Vertex> visited) {
 		Vertex closestParent = null;
 		Vertex closestTarget = null;
 		double shortestDistance = Double.MAX_VALUE;
 		
 		for ( Vertex v : visited) {
-			Vertex closestNeighbor = v.findClosestUnvisitedVertex(vertices);
-			double distance = v.findDistanceFrom(closestNeighbor);
-			if ( distance < shortestDistance ) {
+			
+			Edge edge = v.findShortestUnvisitedEdge(vertices);
+			if ( edge.getDistance() < shortestDistance ) {
 				closestParent = v;
-				closestTarget = closestNeighbor;
-				shortestDistance = distance;
+				closestTarget = edge.getTarget();
+				shortestDistance = edge.getDistance();
 			}
 		}
-		
-		return new Vertex[] {closestParent, closestTarget};
+		System.out.println("\n  we chose: " + closestParent.getIndex() + " , " +  closestTarget.getIndex() + "  distance: " + shortestDistance);
+
+		return new Edge(closestParent, closestTarget, shortestDistance);
 	}
 	
 	
@@ -94,7 +94,6 @@ public class RoadBuilder {
 	 ****************************************************************/
 	private void initNodes() {
 		vertices = new HashMap<>();
-		//minimalTree = new HashMap<>();
 		edges = new ArrayList<>();
 		
 		//randomly create the predetermined number of vertices
@@ -118,18 +117,4 @@ public class RoadBuilder {
 			System.out.println(v.toString());
 		}
 	}
-
-	
-	private int countUnvisited() {
-		Set<Integer> keys = vertices.keySet();
-		int count = 0;
-		for ( Integer key : keys ) {
-			if ( !vertices.get(key).hasBeenVisited()) {
-				count++;
-			}
-		}
-		return count;
-		
-	}
-
 }
