@@ -29,6 +29,6 @@ public class Edge {
 	}
 	
 	public String toString() {
-		return parent.getIndex() + "," + target.getIndex() + " --- " + this.distance;
+		return parent.getIndex() + "," + target.getIndex(); // + " --- " + this.distance;
 	}
 }

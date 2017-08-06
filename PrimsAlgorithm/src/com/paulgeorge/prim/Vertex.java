@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Set;
 
 public class Vertex {
-	private boolean visited;
 	private int index;
 	private double x;
 	private double y;
 	private double z;
+	private boolean visited;
 	
 	public Vertex(int i, double x, double y, double z) {
 		this.index = i;
@@ -18,10 +18,6 @@ public class Vertex {
 		this.y = y;
 		this.z = z;
 		this.visited = false;
-	}
-
-	public int getIndex() {
-		return index;
 	}
 
 	public double findDistanceFrom(Vertex other) {
@@ -42,7 +38,7 @@ public class Vertex {
 				closest = v;
 			}
 		}
-		System.out.println("For " + this.getIndex() + " - found closest: " + closest.getIndex() + "  - distance is: " + shortestDistance);
+		//System.out.println("For " + this.getIndex() + " - found closest: " + closest.getIndex() + "  - distance is: " + shortestDistance);
 		return new Edge(this, closest, shortestDistance);
 	}
 	
@@ -58,9 +54,12 @@ public class Vertex {
 	public String toString() {
 		DecimalFormat df = new DecimalFormat("#.##");
 		df.setRoundingMode(RoundingMode.CEILING);
-		return df.format(x) + "," + df.format(y) + "," + df.format(z);
+		return df.format(x) + ", " + df.format(y) + ", " + df.format(z);
 	}
 	
+	public int getIndex() {
+		return index;
+	}
 	public double getX() {
 		return x;
 	}
@@ -70,4 +69,6 @@ public class Vertex {
 	public double getZ() {
 		return z;
 	}
+
+
 }

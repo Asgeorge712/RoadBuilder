@@ -12,7 +12,7 @@ public class RoadBuilder {
 	int LENGTH = 100; // this is the x dimension of the play field
 	int WIDTH = 100;  // this is y dimension of the play field
 	int HEIGHT = 4;   // this is z dimension of the play field
-	int NUMBER_OF_VERTICES = 10;
+	int NUMBER_OF_VERTICES = 100;
 	
 	//This is a map to maintain order easily.
 	List<Vertex> vertices;
@@ -23,11 +23,15 @@ public class RoadBuilder {
 		RoadBuilder rb = new RoadBuilder();
 		rb.initNodes();
 		rb.buildRoads();
-		System.out.println("\n\n");
+		//System.out.println("\n\n");
 		rb.printVertices();
 		rb.printEdges();
 	}
 	
+	/*************************************************************
+	 * 
+	 * 
+	 *************************************************************/
 	private void buildRoads() {
 		//Start with vertices(0) as root
 		vertices.get(0).setVisited(true);
@@ -38,19 +42,6 @@ public class RoadBuilder {
 			vertices.get(e.getTarget().getIndex()).setVisited(true);
 			edges.add(e);
 		}
-	}
-
-	/************************************************************************
-	 * 
-	 * @return
-	 ************************************************************************/
-	private boolean anyNotVisited() {
-		for ( Vertex v : vertices ) {
-			if ( !v.hasBeenVisited()) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	/***************************************************************************
@@ -74,11 +65,23 @@ public class RoadBuilder {
 				shortestDistance = edge.getDistance();
 			}
 		}
-		System.out.println("\n  we chose: " + closestParent.getIndex() + " , " +  closestTarget.getIndex() + "  distance: " + shortestDistance);
+		//System.out.println("\n  we chose: " + closestParent.getIndex() + " , " +  closestTarget.getIndex() + "  distance: " + shortestDistance);
 
 		return new Edge(closestParent, closestTarget, shortestDistance);
 	}
 	
+	/************************************************************************
+	 * 
+	 * @return
+	 ************************************************************************/
+	private boolean anyNotVisited() {
+		for ( Vertex v : vertices ) {
+			if ( !v.hasBeenVisited()) {
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	/***************************************************************
 	 * x,y grid will be LENGTH X WIDTH with a variable height from 0 to HEIGHT
